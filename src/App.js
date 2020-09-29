@@ -1,14 +1,29 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import LoginPage from './pages/auth/LoginPage';
 import './App.css';
+import ArticleList from './pages/article/ArticleList';
+import PrivateRoute from './PrivateRoute';
 
 function App() {
-  useEffect(() => {
-    axios.get('/user');
-  }, []);
+  const { user } = useSelector((state) => state.auth);
+  const isLoggedIn = user && user.logged_in;
   return (
     <div className="App">
-      <h1>SWPP HW3!</h1>
+      <Switch>
+        <Redirect exact from="/" to="/login" />
+        <Route exact path="/login" component={LoginPage} />
+        <PrivateRoute exact path="/articles" component={ArticleList} isLoggedIn={isLoggedIn} />
+        {/* <PrivateRoute path='/likes' component={PostFeed} isLoggedIn={isLoggedIn} />
+        <PrivateRoute exact path='/new' component={PostCreate} isLoggedIn={isLoggedIn} />
+        <Route path='/login' component={AuthPage} />
+        <Route path='/sign-up' component={AuthPage} />
+        <Route exact path='/:id/edit' component={PostEdit} />
+        <Route exact path='/:id' component={PostDetail} />
+        <Route path='/user/:username' component={UserPostFeed} /> */}
+      </Switch>
     </div>
   );
 }
