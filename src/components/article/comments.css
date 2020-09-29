@@ -1,0 +1,26 @@
+.comment-section {
+  border-top: 1px solid #e7e7e7;
+  padding-top: 8px;
+}
+
+.comment-item__wrapper {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin: 4px;
+}
+
+.comment-contents {
+  display: flex;
+}
+
+.author {
+  color: #999;
+  margin-right: 16px;
+}
+
+.comment-button {
+  background-color: whitesmoke;
+  margin: 0 4px;
+  border-radius: 4px;
+}
