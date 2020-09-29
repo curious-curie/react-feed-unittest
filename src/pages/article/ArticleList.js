@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import ArticleItem from '../../components/article/ArticleItem';
+import ArticleListItem from '../../components/article/ArticleListItem';
 import { getArticles } from '../../modules/articles';
 
 export default function ArticleList() {
@@ -9,12 +9,12 @@ export default function ArticleList() {
 
   useEffect(() => {
     dispatch(getArticles());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
       {articles.map((article) => (
-        <ArticleItem key={article.id} article={article} />
+        <ArticleListItem key={article.id} article={article} />
       ))}
     </div>
   );

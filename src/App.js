@@ -6,6 +6,7 @@ import LoginPage from './pages/auth/LoginPage';
 import './App.css';
 import ArticleList from './pages/article/ArticleList';
 import PrivateRoute from './PrivateRoute';
+import ArticleDetail from './pages/article/ArticleDetail';
 
 function App() {
   const { user } = useSelector((state) => state.auth);
@@ -16,6 +17,8 @@ function App() {
         <Redirect exact from="/" to="/login" />
         <Route exact path="/login" component={LoginPage} />
         <PrivateRoute exact path="/articles" component={ArticleList} isLoggedIn={isLoggedIn} />
+        <PrivateRoute exact path="/articles/:id" component={ArticleDetail} isLoggedIn={isLoggedIn} />
+
         {/* <PrivateRoute path='/likes' component={PostFeed} isLoggedIn={isLoggedIn} />
         <PrivateRoute exact path='/new' component={PostCreate} isLoggedIn={isLoggedIn} />
         <Route path='/login' component={AuthPage} />
