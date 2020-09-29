@@ -14,8 +14,8 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    if (user?.logged_in) history.push('/articles');
-  }, [user && user.logged_in]);
+    if (user && user.logged_in) history.push('/articles');
+  }, [user]);
 
   return (
     <div>

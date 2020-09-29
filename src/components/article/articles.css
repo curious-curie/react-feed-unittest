@@ -1,7 +1,17 @@
 .article-list-item {
+  border-radius: 8px;
   padding: 16px;
   background: #fff;
   margin: 16px;
+  box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
+    0 15px 40px rgba(166, 173, 201, 0.2);
+}
+
+.article-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 8px;
 }
 
 .article-title__button {
@@ -26,4 +36,12 @@
   text-align: right;
   color: #999;
   font-size: 14px;
+}
+
+.article-header {
+  margin-bottom: 32px;
+}
+
+.article-content {
+  margin-bottom: 16px;
 }

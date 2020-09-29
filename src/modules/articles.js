@@ -28,6 +28,15 @@ export const getArticles = () => async (dispatch) => {
   }
 };
 
+export const getArticle = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`/articles/${id}`);
+    dispatch({ type: GET_ARTICLE_SUCCESS, article: data });
+  } catch (e) {
+    dispatch({ type: GET_ARTICLE_ERROR, error: e });
+  }
+};
+
 export default function articleReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ARTICLES_SUCCESS:
@@ -40,6 +49,18 @@ export default function articleReducer(state = initialState, action) {
       return {
         ...state,
         articles: [],
+        error: action.error,
+      };
+    case GET_ARTICLE_SUCCESS:
+      return {
+        ...state,
+        article: action.article,
+        error: false,
+      };
+    case GET_ARTICLE_ERROR:
+      return {
+        ...state,
+        article: null,
         error: action.error,
       };
     default:

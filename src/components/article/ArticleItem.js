@@ -11,11 +11,18 @@ export default function ArticleItem({ article }) {
   };
   return (
     <div className="article-list-item">
-      <div className="article-id">{article.id}</div>
-      <button className="article-title__button" onClick={goToDetailPage}>
-        {article.title}
-      </button>
-      <div className="article-author">by {authorName}</div>
+      <div className="article-header">
+        <div className="article-id">{article.id}</div>
+        <div id="article-title" className="article-title" onClick={goToDetailPage}>
+          {article.title}
+        </div>
+        <div id="article-author" className="article-author">
+          by {authorName}
+        </div>
+      </div>
+      <div id="article-content" className="article-content">
+        {article.content}
+      </div>
     </div>
   );
 }
