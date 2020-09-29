@@ -1,0 +1,29 @@
+.article-list-item {
+  padding: 16px;
+  background: #fff;
+  margin: 16px;
+}
+
+.article-title__button {
+  background-color: #fff;
+  text-align: left !important;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
+}
+
+.article-title__button:hover {
+  color: rgb(235, 115, 145);
+}
+
+.article-id {
+  color: #999;
+  font-size: 12px;
+}
+
+.article-author {
+  text-align: right;
+  color: #999;
+  font-size: 14px;
+}
