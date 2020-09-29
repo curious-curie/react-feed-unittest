@@ -1,16 +1,17 @@
-export const GET_POST_REQUEST = 'posts/GET_POST_REQUEST';
-export const GET_POST_SUCCESS = 'posts/GET_POST_SUCCESS';
-export const GET_POST_ERROR = 'posts/GET_POST_ERROR';
+import axios from 'axios';
+export const GET_ARTICLE_REQUEST = 'articles/GET_ARTICLE_REQUEST';
+export const GET_ARTICLE_SUCCESS = 'articles/GET_ARTICLE_SUCCESS';
+export const GET_ARTICLE_ERROR = 'articles/GET_ARTICLE_ERROR';
 
-export const GET_POSTS_REQUEST = 'posts/GET_POSTS_REQUEST';
-export const GET_POSTS_SUCCESS = 'posts/GET_POSTS_SUCCESS';
-export const GET_POSTS_ERROR = 'posts/GET_POSTS_ERROR';
+export const GET_ARTICLES_REQUEST = 'articles/GET_ARTICLES_REQUEST';
+export const GET_ARTICLES_SUCCESS = 'articles/GET_ARTICLES_SUCCESS';
+export const GET_ARTICLES_ERROR = 'articles/GET_ARTICLES_ERROR';
 
-export const DELETE_POST_REQUEST = 'posts/DELETE_POST_REQUEST';
-export const DELETE_POST_SUCCESS = 'posts/DELETE_POST_SUCCESS';
+export const DELETE_ARTICLE_REQUEST = 'articles/DELETE_ARTICLE_REQUEST';
+export const DELETE_ARTICLE_SUCCESS = 'articles/DELETE_ARTICLE_SUCCESS';
 
-export const UPDATE_POST_REQUEST = 'posts/UPDATE_POST_REQUEST';
-export const UPDATE_POST_SUCCESS = 'posts/UPDATE_POST_SUCCESS';
+export const UPDATE_ARTICLE_REQUEST = 'articles/UPDATE_ARTICLE_REQUEST';
+export const UPDATE_ARTICLE_SUCCESS = 'articles/UPDATE_ARTICLE_SUCCESS';
 
 const initialState = {
   error: false,
@@ -18,8 +19,29 @@ const initialState = {
   articles: [],
 };
 
+export const getArticles = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get('/articles');
+    dispatch({ type: GET_ARTICLES_SUCCESS, articles: data });
+  } catch (e) {
+    dispatch({ type: GET_ARTICLES_ERROR, error: e });
+  }
+};
+
 export default function articleReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_ARTICLES_SUCCESS:
+      return {
+        ...state,
+        articles: action.articles,
+        error: false,
+      };
+    case GET_ARTICLES_ERROR:
+      return {
+        ...state,
+        articles: [],
+        error: action.error,
+      };
     default:
       return state;
   }
