@@ -45,3 +45,9 @@
 .article-content {
   margin-bottom: 16px;
 }
+
+.article-buttons__wrapper {
+  padding-top: 8px;
+  display: flex;
+  flex-direction: row-reverse;
+}

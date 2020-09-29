@@ -10,25 +10,47 @@ export const DELETE_COMMENT_SUCCESS = 'comments/DELETE_COMMENT_SUCCESS';
 export const UPDATE_COMMENT_REQUEST = 'comments/UPDATE_COMMENT_REQUEST';
 export const UPDATE_COMMENT_SUCCESS = 'comments/UPDATE_COMMENT_SUCCESS';
 
+export const CREATE_COMMENT_REQUEST = 'comments/CREATE_COMMENT_REQUEST';
+export const CREATE_COMMENT_SUCCESS = 'comments/CREATE_COMMENT_SUCCESS';
+
 const initialState = {
   error: false,
   comments: [],
+  lastId: null,
 };
 
 export const getComments = () => async (dispatch) => {
   try {
     const { data } = await axios.get('/comments');
-    dispatch({ type: GET_COMMENTS_SUCCESS, comments: data });
+    const lastId = data.reduce((prev, current) => (+prev.id > +current.id ? prev : current)).id;
+    dispatch({ type: GET_COMMENTS_SUCCESS, comments: data, lastId });
   } catch (e) {
     dispatch({ type: GET_COMMENTS_ERROR, error: e });
   }
 };
 
 export const deleteComment = (id) => async (dispatch) => {
-  dispatch({ type: DELETE_COMMENT_REQUEST });
   try {
     await axios.delete(`/comments/${id}`);
-    dispatch({ type: DELETE_COMMENT_SUCCESS });
+    dispatch({ type: DELETE_COMMENT_SUCCESS, id });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const editComment = (comment) => async (dispatch) => {
+  try {
+    await axios.put(`/comments/${comment.id}`, comment);
+    dispatch({ type: UPDATE_COMMENT_SUCCESS, comment });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const createComment = (comment) => async (dispatch) => {
+  try {
+    await axios.post('/comments', comment);
+    dispatch({ type: CREATE_COMMENT_SUCCESS, comment, lastId: comment.id });
   } catch (e) {
     console.log(e);
   }
@@ -40,6 +62,7 @@ export default function commentReducer(state = initialState, action) {
       return {
         ...state,
         comments: action.comments,
+        lastId: action.lastId,
         error: false,
       };
     case GET_COMMENTS_ERROR:
@@ -48,11 +71,31 @@ export default function commentReducer(state = initialState, action) {
         comments: [],
         error: action.error,
       };
-    case DELETE_COMMENT_SUCCESS:
+    case DELETE_COMMENT_SUCCESS: {
+      const newComments = state.comments.filter((item) => item.id !== action.id);
       return {
         ...state,
         comment: null,
+        comments: newComments,
       };
+    }
+    case CREATE_COMMENT_SUCCESS:
+      return {
+        ...state,
+        comments: [...state.comments, action.comment],
+        lastId: action.lastId,
+      };
+    case UPDATE_COMMENT_SUCCESS: {
+      const newComments = state.comments.map((item) => {
+        if (item.id === action.comment.id) return action.comment;
+        else return item;
+      });
+      return {
+        ...state,
+        comment: null,
+        comments: newComments,
+      };
+    }
     default:
       return state;
   }
