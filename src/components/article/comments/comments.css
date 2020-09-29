@@ -21,6 +21,15 @@
 
 .comment-button {
   background-color: whitesmoke;
+  color: #444;
   margin: 0 4px;
   border-radius: 4px;
+}
+
+#new-comment-content-input {
+  width: 70%;
+  padding: 4px;
+  margin: 4px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }

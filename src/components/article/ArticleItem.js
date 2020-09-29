@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import history from '../../history';
 import './articles.css';
+import CommentSection from './comments/CommentSection';
 
-export default function ArticleItem({ article }) {
-  const { users } = useSelector((state) => state.auth);
+export default function ArticleItem({ article, onDelete }) {
+  const { users, user } = useSelector((state) => state.auth);
+  const { comments } = useSelector((state) => state.comments);
+  const [articleComments, setArticleComments] = useState([]);
+  useEffect(() => {
+    console.log(comments);
+    setArticleComments(comments.filter((comment) => comment.article_id === article.id));
+  }, [comments]);
+
   const authorName = users.find((user) => user.id === article.author_id).name;
   const goToDetailPage = () => {
     history.push(`/articles/${article.id}`);
@@ -19,10 +27,21 @@ export default function ArticleItem({ article }) {
         <div id="article-author" className="article-author">
           by {authorName}
         </div>
+        {user.id === article.author_id && (
+          <div className="article-buttons__wrapper">
+            <button id="delete-article-button" className="article-button" onClick={onDelete}>
+              Delete
+            </button>
+            <button id="edit-article-button" className="article-button">
+              Edit
+            </button>
+          </div>
+        )}
       </div>
       <div id="article-content" className="article-content">
         {article.content}
       </div>
+      <CommentSection comments={articleComments} articleId={article.id} />
     </div>
   );
 }
