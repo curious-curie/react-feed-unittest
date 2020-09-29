@@ -29,11 +29,22 @@ export const getArticles = () => async (dispatch) => {
 };
 
 export const getArticle = (id) => async (dispatch) => {
+  dispatch({ type: GET_ARTICLE_REQUEST });
   try {
     const { data } = await axios.get(`/articles/${id}`);
     dispatch({ type: GET_ARTICLE_SUCCESS, article: data });
   } catch (e) {
     dispatch({ type: GET_ARTICLE_ERROR, error: e });
+  }
+};
+
+export const deleteArticle = (id) => async (dispatch) => {
+  dispatch({ type: DELETE_ARTICLE_REQUEST });
+  try {
+    await axios.delete(`/articles/${id}`);
+    dispatch({ type: DELETE_ARTICLE_SUCCESS });
+  } catch (e) {
+    console.log(e);
   }
 };
 
@@ -51,6 +62,11 @@ export default function articleReducer(state = initialState, action) {
         articles: [],
         error: action.error,
       };
+    case GET_ARTICLE_REQUEST:
+      return {
+        ...state,
+        article: null,
+      };
     case GET_ARTICLE_SUCCESS:
       return {
         ...state,
@@ -62,6 +78,11 @@ export default function articleReducer(state = initialState, action) {
         ...state,
         article: null,
         error: action.error,
+      };
+    case DELETE_ARTICLE_SUCCESS:
+      return {
+        ...state,
+        article: null,
       };
     default:
       return state;
