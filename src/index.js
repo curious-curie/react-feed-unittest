@@ -6,14 +6,15 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import ReduxThunk from 'redux-thunk';
+import thunk from 'redux-thunk';
 import rootReducer from './modules';
+import history from './history';
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk, logger)));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, logger)));
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
+    <Router history={history}>
       <App />
     </Router>
   </Provider>,

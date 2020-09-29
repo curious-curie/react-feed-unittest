@@ -20,15 +20,22 @@ export const updateUsers = (users) => {
   };
 };
 
-export const requestLogin = (email, password) => {
-  return async (getState, dispatch) => {
-    const { users } = getState().auth;
+export const requestLogin = ({ email, password }) => {
+  return async (dispatch) => {
+    const res = await axios.get('/user');
+    const users = res.data;
     const user = users.find((user) => user.email === email);
+    console.log(email);
     // if (user.password !== password) dispatch(loginFailure());
-    dispatch(login());
+    // dispatch(login());
     try {
+      const loginUser = { ...user, logged_in: true };
+      const newUsers = users.map((item) => {
+        if (+item.id === +user.id) return loginUser;
+        else return item;
+      });
       await axios.put(`/user/${user.id}`, { ...user, logged_in: true });
-      dispatch(loginSuccess);
+      dispatch(loginSuccess({ user: loginUser, users: newUsers }));
     } catch (error) {
       dispatch(loginFailure(error));
     }
@@ -41,11 +48,12 @@ export const login = () => {
   };
 };
 
-export const loginSuccess = (user) => {
+export const loginSuccess = ({ user, users }) => {
   // localStorage.setItem('user', JSON.stringify(user));
   return {
     type: LOGIN_SUCCESS,
     user,
+    users,
   };
 };
 
@@ -82,6 +90,7 @@ export default function authReducer(state = initialState, action) {
     case LOGIN_SUCCESS:
       return {
         ...state,
+        users: action.users,
         user: action.user,
         error: false,
         loading: false,
