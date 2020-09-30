@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import LoginPage from './pages/auth/LoginPage';
 import './App.css';
@@ -9,12 +9,23 @@ import PrivateRoute from './PrivateRoute';
 import ArticleDetail from './pages/article/ArticleDetail';
 import ArticleCreate from './pages/article/ArticleCreate';
 import ArticleEdit from './pages/article/ArticleEdit';
+import { logout } from './modules/auth';
 
 function App() {
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const isLoggedIn = user && user.logged_in;
+
+  const onLogout = () => {
+    dispatch(logout(user));
+  };
   return (
     <div className="App">
+      {isLoggedIn && (
+        <button id="logout-button" onClick={onLogout}>
+          Logout
+        </button>
+      )}
       <Switch>
         <Redirect exact from="/" to="/login" />
         <Route exact path="/login" component={LoginPage} />

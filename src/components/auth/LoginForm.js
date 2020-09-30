@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import './auth.css';
 
 export default function LoginForm({ handleSubmit }) {
-  const [userInfo, setUserInfo] = useState({ email: 'swpp@snu.ac.kr', password: 'iluvswpp' });
+  const userEmail = 'swpp@snu.ac.kr';
+  const userPW = 'iluvswpp';
+  const [userInfo, setUserInfo] = useState({ email: '', password: '' });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -10,7 +12,7 @@ export default function LoginForm({ handleSubmit }) {
   };
 
   const onSubmit = () => {
-    if (userInfo.email !== 'swpp@snu.ac.kr' || userInfo.password !== 'iluvswpp') {
+    if (userInfo.email !== userEmail || userInfo.password !== userPW) {
       alert('Email or password is wrong');
       return;
     }
