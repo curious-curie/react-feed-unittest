@@ -4,11 +4,15 @@ export const LOGIN = 'auth/LOGIN';
 export const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'auth/LOGIN_ERROR';
 
+const userEmail = 'swpp@snu.ac.kr';
+
 export const fetchUsers = () => {
   return async (dispatch) => {
-    const users = await axios.get('/user');
-    if (users) {
-      dispatch(updateUsers(users));
+    const res = await axios.get('/user');
+    const users = res.data;
+    const currentUser = users.find((user) => user.email === userEmail);
+    if (currentUser.logged_in) {
+      dispatch(loginSuccess({ user: currentUser, users }));
     }
   };
 };
@@ -25,9 +29,6 @@ export const requestLogin = ({ email, password }) => {
     const res = await axios.get('/user');
     const users = res.data;
     const user = users.find((user) => user.email === email);
-    console.log(email);
-    // if (user.password !== password) dispatch(loginFailure());
-    // dispatch(login());
     try {
       const loginUser = { ...user, logged_in: true };
       const newUsers = users.map((item) => {
