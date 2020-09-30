@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from '../../components/auth/LoginForm';
-import { requestLogin } from '../../modules/auth';
+import { fetchUsers, requestLogin } from '../../modules/auth';
 import history from '../../history';
 
 export default function LoginPage() {
@@ -12,6 +12,10 @@ export default function LoginPage() {
     const { email, password } = userInfo;
     await dispatch(requestLogin({ email, password }));
   };
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
   useEffect(() => {
     if (user && user.logged_in) history.push('/articles');
