@@ -8,6 +8,7 @@ export default function ArticleItem({ article, onDelete }) {
   const { users, user } = useSelector((state) => state.auth);
   const { comments } = useSelector((state) => state.comments);
   const [articleComments, setArticleComments] = useState([]);
+
   useEffect(() => {
     setArticleComments(comments.filter((comment) => comment.article_id === article.id));
   }, [comments]);
@@ -16,6 +17,11 @@ export default function ArticleItem({ article, onDelete }) {
   const goToDetailPage = () => {
     history.push(`/articles/${article.id}`);
   };
+
+  const goToEditPage = () => {
+    history.push(`/articles/${article.id}/edit`);
+  };
+
   return (
     <div className="article-list-item">
       <div className="article-header">
@@ -31,7 +37,7 @@ export default function ArticleItem({ article, onDelete }) {
             <button id="delete-article-button" className="article-button" onClick={onDelete}>
               Delete
             </button>
-            <button id="edit-article-button" className="article-button">
+            <button id="edit-article-button" className="article-button" onClick={goToEditPage}>
               Edit
             </button>
           </div>

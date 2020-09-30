@@ -50,6 +50,17 @@ export const createArticle = (article) => async (dispatch) => {
     console.log(e);
   }
 };
+
+export const editArticle = (article) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/articles/${article.id}`, article);
+    const newArticle = res.data;
+    dispatch({ type: UPDATE_ARTICLE_SUCCESS, article: newArticle });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const deleteArticle = (id) => async (dispatch) => {
   dispatch({ type: DELETE_ARTICLE_REQUEST });
   try {
@@ -102,6 +113,17 @@ export default function articleReducer(state = initialState, action) {
         ...state,
         articles: newArticles,
         article: action.article,
+      };
+    }
+    case UPDATE_ARTICLE_SUCCESS: {
+      const newArticles = state.articles.map((item) => {
+        if (item.id === action.article.id) return action.article;
+        else return item;
+      });
+      return {
+        ...state,
+        article: action.article,
+        articles: newArticles,
       };
     }
     default:
