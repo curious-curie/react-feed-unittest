@@ -8,6 +8,7 @@ import ArticleList from './pages/article/ArticleList';
 import PrivateRoute from './PrivateRoute';
 import ArticleDetail from './pages/article/ArticleDetail';
 import ArticleCreate from './pages/article/ArticleCreate';
+import ArticleEdit from './pages/article/ArticleEdit';
 
 function App() {
   const { user } = useSelector((state) => state.auth);
@@ -20,6 +21,7 @@ function App() {
         <PrivateRoute exact path="/articles" component={ArticleList} isLoggedIn={isLoggedIn} />
         <PrivateRoute exact path="/articles/create" component={ArticleCreate} isLoggedIn={isLoggedIn} />
         <PrivateRoute exact path="/articles/:id" component={ArticleDetail} isLoggedIn={isLoggedIn} />
+        <PrivateRoute exact path="/articles/:id/edit" component={ArticleEdit} isLoggedIn={isLoggedIn} />
       </Switch>
     </div>
   );
