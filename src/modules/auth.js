@@ -1,6 +1,7 @@
 import axios from 'axios';
 export const UPDATE_USERS = 'auth/UPDATE_USERS';
 export const LOGIN = 'auth/LOGIN';
+export const LOG_OUT = 'auth/LOG_OUT';
 export const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'auth/LOGIN_ERROR';
 
@@ -46,6 +47,21 @@ export const requestLogin = ({ email, password }) => {
 export const login = () => {
   return {
     type: LOGIN,
+  };
+};
+
+export const logout = (user) => {
+  return async (dispatch) => {
+    const newUser = { ...user, logged_in: false };
+    await axios.put(`/user/${user.id}`, newUser);
+    dispatch(logoutSuccess(newUser), { user: newUser });
+  };
+};
+
+export const logoutSuccess = (user) => {
+  return {
+    type: LOG_OUT,
+    user,
   };
 };
 
@@ -103,6 +119,17 @@ export default function authReducer(state = initialState, action) {
         error: action.error,
         loading: false,
       };
+    case LOG_OUT: {
+      const users = state.users.filter((user) => user.id !== action.user.id);
+      const newUsers = [...users, action.user];
+      return {
+        ...state,
+        user: null,
+        users: newUsers,
+        error: false,
+        loading: false,
+      };
+    }
     default:
       return state;
   }

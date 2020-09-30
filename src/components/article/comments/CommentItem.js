@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteComment, editComment } from '../../../modules/comments';
 import './comments.css';
 
 export default function CommentItem({ comment }) {
   const { users, user } = useSelector((state) => state.auth);
-  // const [isEdit, setIsEdit] = useState(false);
   const authorName = users.find((user) => user.id === comment.author_id).name;
   const isAuthor = user.id === comment.author_id;
   const dispatch = useDispatch();

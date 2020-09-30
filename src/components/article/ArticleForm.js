@@ -41,10 +41,14 @@ export default function ArticleForm({ handleCreate, isEdit, article }) {
   };
 
   const goBackToDetail = () => {
-    const isChanged = article.content !== newArticle.content || article.title !== newArticle.content;
-    if (!isChanged) history.push(`/articles/${article.id}`);
+    const isChanged = article.content !== newArticle.content || article.title !== newArticle.title;
+    if (!isChanged) {
+      history.push(`/articles/${article.id}`);
+      return;
+    }
     const message = 'Are you sure? The change will be lost.';
     if (window.confirm(message)) history.push(`/articles/${article.id}`);
+    return;
   };
 
   return (
