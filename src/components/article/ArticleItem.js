@@ -9,7 +9,6 @@ export default function ArticleItem({ article, onDelete }) {
   const { comments } = useSelector((state) => state.comments);
   const [articleComments, setArticleComments] = useState([]);
   useEffect(() => {
-    console.log(comments);
     setArticleComments(comments.filter((comment) => comment.article_id === article.id));
   }, [comments]);
 

@@ -7,6 +7,16 @@
     0 15px 40px rgba(166, 173, 201, 0.2);
 }
 
+.article-create-wrapper {
+  border-radius: 8px;
+  padding: 16px;
+  background: #fff;
+  margin: 16px;
+  box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
+    0 15px 40px rgba(166, 173, 201, 0.2);
+}
+
+
 .article-title {
   font-size: 16px;
   font-weight: bold;
@@ -21,6 +31,7 @@
   font-size: 16px;
   font-weight: bold;
   color: #666;
+  margin-bottom: 16px;
 }
 
 .article-title__button:hover {
@@ -50,4 +61,27 @@
   padding-top: 8px;
   display: flex;
   flex-direction: row-reverse;
+}
+
+.article-input {
+  padding: 8px;
+  border: 1px solid #ececec;
+  border-radius: 4px;
+  outline: none;
+  width: calc(100% - 16px);
+}
+
+#article-content-input {
+  height: 200px;
+}
+
+.input-title {
+  margin: 12px 0 4px;
+}
+
+#confirm-create-article-button {
+  margin: 8px;
+  padding: 8px 32px;
+  border-radius: 8px;
+  background: #ececec;
 }

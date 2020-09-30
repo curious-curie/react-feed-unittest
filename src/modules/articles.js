@@ -7,6 +7,9 @@ export const GET_ARTICLES_REQUEST = 'articles/GET_ARTICLES_REQUEST';
 export const GET_ARTICLES_SUCCESS = 'articles/GET_ARTICLES_SUCCESS';
 export const GET_ARTICLES_ERROR = 'articles/GET_ARTICLES_ERROR';
 
+export const CREATE_ARTICLE_REQUEST = 'articles/CREATE_ARTICLE_REQUEST';
+export const CREATE_ARTICLE_SUCCESS = 'articles/CREATE_ARTICLE_SUCCESS';
+
 export const DELETE_ARTICLE_REQUEST = 'articles/DELETE_ARTICLE_REQUEST';
 export const DELETE_ARTICLE_SUCCESS = 'articles/DELETE_ARTICLE_SUCCESS';
 
@@ -38,6 +41,15 @@ export const getArticle = (id) => async (dispatch) => {
   }
 };
 
+export const createArticle = (article) => async (dispatch) => {
+  try {
+    const res = await axios.post('/articles', article);
+    const newArticle = res.data;
+    dispatch({ type: CREATE_ARTICLE_SUCCESS, article: newArticle });
+  } catch (e) {
+    console.log(e);
+  }
+};
 export const deleteArticle = (id) => async (dispatch) => {
   dispatch({ type: DELETE_ARTICLE_REQUEST });
   try {
@@ -84,6 +96,14 @@ export default function articleReducer(state = initialState, action) {
         ...state,
         article: null,
       };
+    case CREATE_ARTICLE_SUCCESS: {
+      const newArticles = [...state.articles, action.article];
+      return {
+        ...state,
+        articles: newArticles,
+        article: action.article,
+      };
+    }
     default:
       return state;
   }
