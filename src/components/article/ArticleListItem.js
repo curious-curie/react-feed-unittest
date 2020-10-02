@@ -15,7 +15,7 @@ export default function ArticleListItem({ article }) {
       <button className="article-title__button" onClick={goToDetailPage}>
         {article.title}
       </button>
-      <div className="article-author">by {authorName}</div>
+      <div className="article-author">{authorName}</div>
     </div>
   );
 }

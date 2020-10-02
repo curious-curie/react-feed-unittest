@@ -30,7 +30,7 @@ export default function ArticleItem({ article, onDelete }) {
           {article.title}
         </div>
         <div id="article-author" className="article-author">
-          by {authorName}
+          {authorName}
         </div>
         {user.id === article.author_id && (
           <div className="article-buttons__wrapper">

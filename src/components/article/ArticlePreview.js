@@ -15,7 +15,7 @@ export default function ArticlePreview({ article }) {
           {article.title}
         </div>
         <div id="article-author" className="article-author">
-          by {authorName}
+          {authorName}
         </div>
       </div>
       <div id="article-content" className="article-content">
