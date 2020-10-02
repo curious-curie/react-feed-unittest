@@ -59,11 +59,11 @@ export default function ArticleForm({ handleCreate, isEdit, article }) {
         </button>
       )}
       {isEdit ? <h3>Edit Article</h3> : <h3>New Article</h3>}
-      <button onClick={setPreview} id="preview-tab-button">
-        Preview Mode
-      </button>
-      <button onClick={setWrite} id="write-tab-button">
+      <button style={{ background: isPreview ? 'none' : 'pink' }} onClick={setWrite} id="write-tab-button">
         Write Mode
+      </button>
+      <button style={{ background: isPreview ? 'pink' : 'none' }} onClick={setPreview} id="preview-tab-button">
+        Preview Mode
       </button>
 
       {isPreview ? (
