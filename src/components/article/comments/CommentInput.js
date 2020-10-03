@@ -5,7 +5,6 @@ import './comments.css';
 
 export default function CommentInput({ articleId }) {
   const { user } = useSelector((state) => state.auth);
-  const { lastId } = useSelector((state) => state.comments);
   const [content, setContent] = useState('');
   const dispatch = useDispatch();
 
@@ -19,7 +18,6 @@ export default function CommentInput({ articleId }) {
       content,
       article_id: articleId,
       author_id: user.id,
-      id: lastId + 1,
     };
     await dispatch(createComment(newComment));
     setContent('');

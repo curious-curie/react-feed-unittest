@@ -16,14 +16,12 @@ export const CREATE_COMMENT_SUCCESS = 'comments/CREATE_COMMENT_SUCCESS';
 const initialState = {
   error: false,
   comments: [],
-  lastId: null,
 };
 
 export const getComments = () => async (dispatch) => {
   try {
     const { data } = await axios.get('/comments');
-    const lastId = data.reduce((prev, current) => (+prev.id > +current.id ? prev : current)).id;
-    dispatch({ type: GET_COMMENTS_SUCCESS, comments: data, lastId });
+    dispatch({ type: GET_COMMENTS_SUCCESS, comments: data });
   } catch (e) {
     dispatch({ type: GET_COMMENTS_ERROR, error: e });
   }
@@ -49,8 +47,8 @@ export const editComment = (comment) => async (dispatch) => {
 
 export const createComment = (comment) => async (dispatch) => {
   try {
-    await axios.post('/comments', comment);
-    dispatch({ type: CREATE_COMMENT_SUCCESS, comment, lastId: comment.id });
+    const res = await axios.post('/comments', comment);
+    dispatch({ type: CREATE_COMMENT_SUCCESS, comment: res.data });
   } catch (e) {
     console.log(e);
   }
@@ -62,7 +60,6 @@ export default function commentReducer(state = initialState, action) {
       return {
         ...state,
         comments: action.comments,
-        lastId: action.lastId,
         error: false,
       };
     case GET_COMMENTS_ERROR:
@@ -83,7 +80,6 @@ export default function commentReducer(state = initialState, action) {
       return {
         ...state,
         comments: [...state.comments, action.comment],
-        lastId: action.lastId,
       };
     case UPDATE_COMMENT_SUCCESS: {
       const newComments = state.comments.map((item) => {
