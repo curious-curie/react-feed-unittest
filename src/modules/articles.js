@@ -76,6 +76,7 @@ export default function articleReducer(state = initialState, action) {
     case GET_ARTICLES_SUCCESS:
       return {
         ...state,
+        article: null,
         articles: action.articles,
         error: false,
       };

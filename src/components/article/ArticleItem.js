@@ -11,7 +11,7 @@ export default function ArticleItem({ article, onDelete }) {
 
   useEffect(() => {
     setArticleComments(comments.filter((comment) => comment.article_id === article.id));
-  }, [comments]);
+  }, [comments, article.id]);
 
   const authorName = users.find((user) => user.id === article.author_id).name;
   const goToDetailPage = () => {
