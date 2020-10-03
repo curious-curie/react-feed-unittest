@@ -14,7 +14,7 @@ export default function CommentItem({ comment }) {
   };
 
   const handleEditComment = () => {
-    const newInput = prompt('Enter edited comment');
+    const newInput = prompt('Enter edited comment', comment.content);
     if (!newInput || !newInput.length) return;
     const newComment = {
       ...comment,
