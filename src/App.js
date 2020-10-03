@@ -19,6 +19,7 @@ function App() {
   const onLogout = () => {
     dispatch(logout(user));
   };
+
   return (
     <div className="App">
       {isLoggedIn && (
