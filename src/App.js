@@ -19,7 +19,7 @@ function App() {
   const onLogout = () => {
     dispatch(logout(user));
   };
-
+  // Todo: check Redirect
   return (
     <div className="App">
       {isLoggedIn && (
