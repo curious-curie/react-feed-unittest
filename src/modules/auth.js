@@ -120,6 +120,7 @@ export default function authReducer(state = initialState, action) {
         loading: false,
       };
     case LOG_OUT: {
+      console.log(JSON.stringify(state));
       const users = state.users.filter((user) => user.id !== action.user.id);
       const newUsers = [...users, action.user];
       return {
