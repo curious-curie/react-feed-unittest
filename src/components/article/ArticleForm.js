@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import history from '../../history';
 import ArticlePreview from './ArticlePreview';
 import './articles.css';
 
-export default function ArticleForm({ handleCreate, isEdit, article }) {
-  const { user } = useSelector((state) => state.auth);
+export default function ArticleForm({ handleCreate, isEdit, article, user, users }) {
   const [isPreview, setIsPreview] = useState(false);
   const [newArticle, setNewArticle] = useState({
     author_id: null,
@@ -67,7 +65,7 @@ export default function ArticleForm({ handleCreate, isEdit, article }) {
       </button>
 
       {isPreview ? (
-        <ArticlePreview article={newArticle} />
+        <ArticlePreview article={newArticle} users={users} />
       ) : (
         <>
           <div className="input-title">Title</div>

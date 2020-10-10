@@ -7,6 +7,7 @@ import { editArticle } from '../../modules/articles';
 export default function ArticleEdit() {
   const dispatch = useDispatch();
   const { article } = useSelector((state) => state.article);
+  const { users, user } = useSelector((state) => state.auth);
   const handleEdit = async (newArticle) => {
     await dispatch(editArticle(newArticle));
     history.push(`/articles/${newArticle.id}`);
@@ -14,7 +15,7 @@ export default function ArticleEdit() {
 
   return (
     <div>
-      <ArticleForm handleCreate={handleEdit} isEdit={true} article={article} />
+      <ArticleForm handleCreate={handleEdit} isEdit={true} article={article} user={user} users={users} />
     </div>
   );
 }

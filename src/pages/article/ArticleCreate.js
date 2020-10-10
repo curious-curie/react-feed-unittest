@@ -7,6 +7,7 @@ import { createArticle } from '../../modules/articles';
 export default function ArticleCreate() {
   const [created, setCreated] = useState(false);
   const { article } = useSelector((state) => state.article);
+  const { users, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function ArticleCreate() {
       <button id="back-create-article-button" onClick={goBack}>
         ← back to list
       </button>
-      <ArticleForm handleCreate={handleCreate} />
+      <ArticleForm handleCreate={handleCreate} user={user} users={users} />
     </div>
   );
 }

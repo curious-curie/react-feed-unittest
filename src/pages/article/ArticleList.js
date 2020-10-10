@@ -7,6 +7,8 @@ import { getComments } from '../../modules/comments';
 
 export default function ArticleList() {
   const { articles } = useSelector((state) => state.article);
+  const { users, user } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function ArticleList() {
         New Article
       </button>
       {articles.map((article) => (
-        <ArticleListItem key={article.id} article={article} />
+        <ArticleListItem users={users} key={article.id} article={article} />
       ))}
     </div>
   );

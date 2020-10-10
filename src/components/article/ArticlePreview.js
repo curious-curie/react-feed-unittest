@@ -1,10 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import './articles.css';
 
-export default function ArticlePreview({ article }) {
-  const { users } = useSelector((state) => state.auth);
-
+export default function ArticlePreview({ article, users }) {
   const authorName = users.find((user) => user.id === article.author_id).name;
 
   return (

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import history from '../../history';
 import './articles.css';
 import CommentSection from './comments/CommentSection';
 
-export default function ArticleItem({ article, onDelete }) {
-  const { users, user } = useSelector((state) => state.auth);
-  const { comments } = useSelector((state) => state.comments);
+export default function ArticleItem({ article, onDelete, users, user, comments }) {
   const [articleComments, setArticleComments] = useState([]);
 
   useEffect(() => {

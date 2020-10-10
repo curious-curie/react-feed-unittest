@@ -1,10 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import history from '../../history';
 import './articles.css';
 
-export default function ArticleListItem({ article }) {
-  const { users } = useSelector((state) => state.auth);
+export default function ArticleListItem({ article, users }) {
   const authorName = users.find((user) => user.id === article.author_id).name;
   const goToDetailPage = () => {
     history.push(`/articles/${article.id}`);
