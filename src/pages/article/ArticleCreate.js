@@ -26,7 +26,7 @@ export default function ArticleCreate() {
   };
 
   return (
-    <div>
+    <div className="article-create">
       <button id="back-create-article-button" onClick={goBack}>
         ← back to list
       </button>
