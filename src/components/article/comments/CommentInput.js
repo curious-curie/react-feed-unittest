@@ -13,7 +13,6 @@ export default function CommentInput({ articleId }) {
   };
 
   const handleCreateComment = async () => {
-    if (!content.length) return;
     const newComment = {
       content,
       article_id: articleId,
