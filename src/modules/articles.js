@@ -23,52 +23,32 @@ const initialState = {
 };
 
 export const getArticles = () => async (dispatch) => {
-  try {
-    const { data } = await axios.get('/articles');
-    dispatch({ type: GET_ARTICLES_SUCCESS, articles: data });
-  } catch (e) {
-    dispatch({ type: GET_ARTICLES_ERROR, error: e });
-  }
+  const { data } = await axios.get('/articles');
+  dispatch({ type: GET_ARTICLES_SUCCESS, articles: data });
 };
 
 export const getArticle = (id) => async (dispatch) => {
   dispatch({ type: GET_ARTICLE_REQUEST });
-  try {
-    const { data } = await axios.get(`/articles/${id}`);
-    dispatch({ type: GET_ARTICLE_SUCCESS, article: data });
-  } catch (e) {
-    dispatch({ type: GET_ARTICLE_ERROR, error: e });
-  }
+  const { data } = await axios.get(`/articles/${id}`);
+  dispatch({ type: GET_ARTICLE_SUCCESS, article: data });
 };
 
 export const createArticle = (article) => async (dispatch) => {
-  try {
-    const res = await axios.post('/articles', article);
-    const newArticle = res.data;
-    dispatch({ type: CREATE_ARTICLE_SUCCESS, article: newArticle });
-  } catch (e) {
-    console.log(e);
-  }
+  const res = await axios.post('/articles', article);
+  const newArticle = res.data;
+  dispatch({ type: CREATE_ARTICLE_SUCCESS, article: newArticle });
 };
 
 export const editArticle = (article) => async (dispatch) => {
-  try {
-    const res = await axios.put(`/articles/${article.id}`, article);
-    const newArticle = res.data;
-    dispatch({ type: UPDATE_ARTICLE_SUCCESS, article: newArticle });
-  } catch (e) {
-    console.log(e);
-  }
+  const res = await axios.put(`/articles/${article.id}`, article);
+  const newArticle = res.data;
+  dispatch({ type: UPDATE_ARTICLE_SUCCESS, article: newArticle });
 };
 
 export const deleteArticle = (id) => async (dispatch) => {
   dispatch({ type: DELETE_ARTICLE_REQUEST });
-  try {
-    await axios.delete(`/articles/${id}`);
-    dispatch({ type: DELETE_ARTICLE_SUCCESS });
-  } catch (e) {
-    console.log(e);
-  }
+  await axios.delete(`/articles/${id}`);
+  dispatch({ type: DELETE_ARTICLE_SUCCESS });
 };
 
 export default function articleReducer(state = initialState, action) {
@@ -80,12 +60,6 @@ export default function articleReducer(state = initialState, action) {
         articles: action.articles,
         error: false,
       };
-    case GET_ARTICLES_ERROR:
-      return {
-        ...state,
-        articles: [],
-        error: action.error,
-      };
     case GET_ARTICLE_REQUEST:
       return {
         ...state,
@@ -96,12 +70,6 @@ export default function articleReducer(state = initialState, action) {
         ...state,
         article: action.article,
         error: false,
-      };
-    case GET_ARTICLE_ERROR:
-      return {
-        ...state,
-        article: null,
-        error: action.error,
       };
     case DELETE_ARTICLE_SUCCESS:
       return {

@@ -18,29 +18,18 @@ export const fetchUsers = () => {
   };
 };
 
-export const updateUsers = (users) => {
-  return {
-    UPDATE_USERS,
-    users,
-  };
-};
-
 export const requestLogin = ({ email, password }) => {
   return async (dispatch) => {
     const res = await axios.get('/user');
     const users = res.data;
     const user = users.find((user) => user.email === email);
-    try {
-      const loginUser = { ...user, logged_in: true };
-      const newUsers = users.map((item) => {
-        if (+item.id === +user.id) return loginUser;
-        else return item;
-      });
-      await axios.put(`/user/${user.id}`, { ...user, logged_in: true });
-      dispatch(loginSuccess({ user: loginUser, users: newUsers }));
-    } catch (error) {
-      dispatch(loginFailure(error));
-    }
+    const loginUser = { ...user, logged_in: true };
+    const newUsers = users.map((item) => {
+      if (+item.id === +user.id) return loginUser;
+      else return item;
+    });
+    await axios.put(`/user/${user.id}`, { ...user, logged_in: true });
+    dispatch(loginSuccess({ user: loginUser, users: newUsers }));
   };
 };
 
@@ -74,13 +63,6 @@ export const loginSuccess = ({ user, users }) => {
   };
 };
 
-export const loginFailure = (error) => {
-  return {
-    type: LOGIN_ERROR,
-    error,
-  };
-};
-
 const initialState = {
   loading: false,
   error: false,
@@ -90,13 +72,6 @@ const initialState = {
 
 export default function authReducer(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_USERS:
-      return {
-        ...state,
-        error: false,
-        loading: false,
-        users: action.users,
-      };
     case LOGIN:
       return {
         ...state,
@@ -112,15 +87,7 @@ export default function authReducer(state = initialState, action) {
         error: false,
         loading: false,
       };
-    case LOGIN_ERROR:
-      return {
-        ...state,
-        user: null,
-        error: action.error,
-        loading: false,
-      };
     case LOG_OUT: {
-      console.log(JSON.stringify(state));
       const users = state.users.filter((user) => user.id !== action.user.id);
       const newUsers = [...users, action.user];
       return {

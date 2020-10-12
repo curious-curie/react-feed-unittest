@@ -19,39 +19,23 @@ const initialState = {
 };
 
 export const getComments = () => async (dispatch) => {
-  try {
-    const { data } = await axios.get('/comments');
-    dispatch({ type: GET_COMMENTS_SUCCESS, comments: data });
-  } catch (e) {
-    dispatch({ type: GET_COMMENTS_ERROR, error: e });
-  }
+  const { data } = await axios.get('/comments');
+  dispatch({ type: GET_COMMENTS_SUCCESS, comments: data });
 };
 
 export const deleteComment = (id) => async (dispatch) => {
-  try {
-    await axios.delete(`/comments/${id}`);
-    dispatch({ type: DELETE_COMMENT_SUCCESS, id });
-  } catch (e) {
-    console.log(e);
-  }
+  await axios.delete(`/comments/${id}`);
+  dispatch({ type: DELETE_COMMENT_SUCCESS, id });
 };
 
 export const editComment = (comment) => async (dispatch) => {
-  try {
-    await axios.put(`/comments/${comment.id}`, comment);
-    dispatch({ type: UPDATE_COMMENT_SUCCESS, comment });
-  } catch (e) {
-    console.log(e);
-  }
+  await axios.put(`/comments/${comment.id}`, comment);
+  dispatch({ type: UPDATE_COMMENT_SUCCESS, comment });
 };
 
 export const createComment = (comment) => async (dispatch) => {
-  try {
-    const res = await axios.post('/comments', comment);
-    dispatch({ type: CREATE_COMMENT_SUCCESS, comment: res.data });
-  } catch (e) {
-    console.log(e);
-  }
+  const res = await axios.post('/comments', comment);
+  dispatch({ type: CREATE_COMMENT_SUCCESS, comment: res.data });
 };
 
 export default function commentReducer(state = initialState, action) {
@@ -61,12 +45,6 @@ export default function commentReducer(state = initialState, action) {
         ...state,
         comments: action.comments,
         error: false,
-      };
-    case GET_COMMENTS_ERROR:
-      return {
-        ...state,
-        comments: [],
-        error: action.error,
       };
     case DELETE_COMMENT_SUCCESS: {
       const newComments = state.comments.filter((item) => item.id !== action.id);
