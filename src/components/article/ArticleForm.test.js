@@ -51,6 +51,11 @@ describe('<ArticleForm />', () => {
     );
     const editButton = component.find('#back-edit-article-button');
     expect(editButton.length).toBe(1);
+    window.confirm = jest.fn().mockImplementation(() => false);
+    history.push = jest.fn().mockImplementation((args) => true);
+    editButton.simulate('click');
+    expect(history.push).toBeCalledTimes(0);
+
     const createButton = component.find('#back-create-article-button');
     expect(createButton.length).toBe(0);
   });
@@ -67,10 +72,41 @@ describe('<ArticleForm />', () => {
         handleCreate={handleCreate}
       />,
     );
-    const writeButton = component.find('#preview-tab-button');
+    const writeButton = component.find('#write-tab-button');
     expect(writeButton.length).toBe(1);
     writeButton.simulate('click');
+    const previewButton = component.find('#preview-tab-button');
+    expect(previewButton.length).toBe(1);
+    previewButton.simulate('click');
     const inputs = component.find('input');
     expect(inputs.length).toBe(0);
+  });
+
+  it('should be disabled when input length is zero', () => {
+    const isEdit = false;
+    const component = shallow(
+      <ArticleForm
+        users={mockUsers}
+        onDelete={onDelete}
+        user={mockUsers[0]}
+        isEdit={isEdit}
+        handleCreate={handleCreate}
+      />,
+    );
+    const createButton = component.find('#confirm-create-article-button');
+    expect(createButton.length).toBe(1);
+    expect(createButton.props().disabled).toBe(true);
+    const titleInput = component.find('#article-title-input');
+    const contentInput = component.find('#article-content-input');
+    const titleEvent = {
+      preventDefault() {},
+      target: { name: 'title', value: 'hello' },
+    };
+    titleInput.simulate('change', titleEvent);
+    const contentEvent = {
+      preventDefault() {},
+      target: { name: 'content', value: 'hello' },
+    };
+    contentInput.simulate('change', contentEvent);
   });
 });

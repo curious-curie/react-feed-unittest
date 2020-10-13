@@ -17,6 +17,15 @@ const stubUser = {
   logged_in: false,
 };
 
+const anotherUser = {
+  id: 3,
+  email: 'edsger@dijkstra.com',
+  password: 'iluvswpp',
+  name: 'Edsger Dijkstra',
+  logged_in: false,
+};
+const stubUsers = [stubUser, anotherUser];
+
 const stubLoggedInUser = {
   id: 1,
   email: 'swpp@snu.ac.kr',
@@ -33,13 +42,13 @@ describe('authActions', () => {
   });
 
   it(`'fetchUsers' should fetch users correctly`, (done) => {
-    const stubUsers = [stubLoggedInUser];
+    // const stubUsers = [stubLoggedInUser];
 
     const spy = jest.spyOn(axios, 'get').mockImplementation((url) => {
       return new Promise((resolve, reject) => {
         const result = {
           status: 200,
-          data: stubUsers,
+          data: [anotherUser, stubUser],
         };
         resolve(result);
       });
@@ -50,31 +59,38 @@ describe('authActions', () => {
       done();
     });
 
-    const spyLogin = jest.spyOn(actionCreators, 'loginSuccess').mockImplementation(() => {
+    const spyLogin = jest.spyOn(actionCreators, 'loginSuccess').mockImplementation((user) => {
       return (dispatch) => {};
     });
+
+    const dispatch = jest.fn();
+
     store.dispatch(actionCreators.fetchUsers()).then(() => {
       expect(spy).toHaveBeenCalledTimes(2);
-      // expect(spyLogin).toBeCalled();
+      expect(dispatch).toHaveBeenCalledTimes(0);
+      const newState = store.getState();
+      // expect(newState.auth.user).toStrictEqual(stubLoggedInUser);
+      // expect(newState.auth.users).toStrictEqual([anotherUser, stubLoggedInUser]);
       done();
     });
   });
 
   it(`'requestLogin' should make login call`, (done) => {
-    const anotherUser = {
-      id: 3,
-      email: 'edsger@dijkstra.com',
-      password: 'iluvswpp',
-      name: 'Edsger Dijkstra',
-      logged_in: false,
-    };
-    const stubUsers = [stubUser, anotherUser];
+    const spyGet = jest.spyOn(axios, 'get').mockImplementation((url) => {
+      return new Promise((resolve, reject) => {
+        const result = {
+          status: 200,
+          data: [stubLoggedInUser, anotherUser],
+        };
+        resolve(result);
+      });
+    });
 
     const spy = jest.spyOn(axios, 'put').mockImplementation((url) => {
       return new Promise((resolve, reject) => {
         const result = {
           status: 200,
-          data: stubUsers,
+          data: [stubLoggedInUser, anotherUser],
         };
         resolve(result);
       });
@@ -82,6 +98,9 @@ describe('authActions', () => {
 
     store.dispatch(actionCreators.requestLogin({ email: 'swpp@snu.ac.kr', password: 'iluvswpp' })).then(() => {
       expect(spy).toHaveBeenCalledTimes(1);
+      const newState = store.getState();
+      expect(newState.auth.user).toStrictEqual(stubLoggedInUser);
+      expect(newState.auth.users).toStrictEqual([stubLoggedInUser, anotherUser]);
       done();
     });
   });
@@ -124,7 +143,7 @@ describe('authActions', () => {
       // });
       store.dispatch(actionCreators.login());
       const newState = store.getState();
-      expect(newState.auth).toEqual({ ...initialState, loading: true, users: [stubUser] });
+      expect(newState.auth).toStrictEqual({ ...initialState, loading: true, users: [anotherUser, stubUser] });
     });
 
     it('should login', () => {
@@ -134,6 +153,7 @@ describe('authActions', () => {
         user: stubLoggedInUser,
       });
       expect(newState).toEqual({
+        // users: [stubLoggedInUser],
         users: [stubLoggedInUser],
         user: stubLoggedInUser,
         error: false,

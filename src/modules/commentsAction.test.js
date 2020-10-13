@@ -79,7 +79,7 @@ describe('commentActions', () => {
     });
   });
 
-  it(`'deleteComment' should delete todo correctly`, (done) => {
+  it(`'deleteComment' should delete comment correctly`, (done) => {
     const spy = jest.spyOn(axios, 'delete').mockImplementation((url) => {
       return new Promise((resolve, reject) => {
         const result = {
@@ -95,34 +95,23 @@ describe('commentActions', () => {
       done();
     });
   });
+
+  it('should edit comment', () => {
+    const newState = commentReducer(
+      {
+        error: false,
+        comment: stubComments[0],
+        comments: stubComments,
+      },
+      {
+        type: actionCreators.UPDATE_COMMENT_SUCCESS,
+        comment: stubComments[0],
+      },
+    );
+    expect(newState).toEqual({
+      error: false,
+      comment: null,
+      comments: stubComments,
+    });
+  });
 });
-
-// describe('Todo Reducer', () => {
-//   it('should return default state', () => {
-//     const newState = commentReducer(undefined, {}); // initialize
-//     expect(newState).toEqual({
-//       error: false,
-//       comment: null,
-//       comments: [],
-//     });
-//   });
-
-//   it('should edit post', () => {
-//     const newState = commentReducer(
-//       {
-//         error: false,
-//         comment: null,
-//         comments: [stubComment],
-//       },
-//       {
-//         type: actionCreators.UPDATE_ARTICLE_SUCCESS,
-//         comment: stubComment,
-//       },
-//     );
-//     expect(newState).toEqual({
-//       comments: [stubComment],
-//       error: false,
-//       comment: stubComment,
-//     });
-//   });
-// });

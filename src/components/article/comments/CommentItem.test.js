@@ -50,4 +50,14 @@ describe('<CommentItem /> unit test', () => {
 
     deleteButton.simulate('click');
   });
+
+  it('Should edit', () => {
+    const wrapper = getWrapper();
+    const editButton = wrapper.find('#edit-comment-button');
+    expect(editButton.length).toBe(1);
+    window.prompt = jest.fn().mockImplementation(() => '');
+
+    editButton.simulate('click');
+    expect(window.prompt).toBeCalled();
+  });
 });

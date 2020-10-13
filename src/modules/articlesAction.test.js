@@ -118,11 +118,19 @@ describe('Todo Reducer', () => {
   });
 
   it('should edit post', () => {
+    const anotherArticle = {
+      id: 11,
+      author_id: 2,
+      title: 'React: A JavaScript library for building user interfaces',
+      content:
+        'React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes.',
+    };
+
     const newState = articleReducer(
       {
         error: false,
         article: null,
-        articles: [stubArticle],
+        articles: [stubArticle, anotherArticle],
       },
       {
         type: actionCreators.UPDATE_ARTICLE_SUCCESS,
@@ -130,7 +138,7 @@ describe('Todo Reducer', () => {
       },
     );
     expect(newState).toEqual({
-      articles: [stubArticle],
+      articles: [stubArticle, anotherArticle],
       error: false,
       article: stubArticle,
     });

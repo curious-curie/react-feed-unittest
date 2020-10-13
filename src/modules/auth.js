@@ -12,9 +12,9 @@ export const fetchUsers = () => {
     const res = await axios.get('/user');
     const users = res.data;
     const currentUser = users.find((user) => user.email === userEmail);
-    if (currentUser.logged_in) {
-      dispatch(loginSuccess({ user: currentUser, users }));
-    }
+    // if (currentUser.logged_in) {
+    //   dispatch(loginSuccess({ user: currentUser, users }));
+    // }
   };
 };
 
@@ -26,7 +26,7 @@ export const requestLogin = ({ email, password }) => {
     const loginUser = { ...user, logged_in: true };
     const newUsers = users.map((item) => {
       if (+item.id === +user.id) return loginUser;
-      else return item;
+      return item;
     });
     await axios.put(`/user/${user.id}`, { ...user, logged_in: true });
     dispatch(loginSuccess({ user: loginUser, users: newUsers }));
